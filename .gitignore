@@ -1,0 +1,9 @@
+!bin
+/.tmp
+/.vagrant
+/result*
+vim/bundle/
+/darwin.nix
+/host.nix
+/machine
+/.pre-commit-config.yaml
