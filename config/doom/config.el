@@ -165,6 +165,12 @@
   (setq org-roam-directory (file-truename "~/Dropbox/org/roam")))
 ;; org-roam:1 ends here
 
+;; [[file:config.org::*Emacs from git with General][Emacs from git with General:1]]
+(after! general
+  (general-auto-unbind-keys :off)
+  (remove-hook 'doom-after-init-modules-hook #'general-auto-unbind-keys))
+;; Emacs from git with General:1 ends here
+
 ;; [[file:config.org::*Elixir LSP formatting][Elixir LSP formatting:1]]
 (when (and (featurep! :lang elixir) (featurep! :tools lsp))
   (setq-hook! 'elixir-mode-hook +format-with-lsp nil))

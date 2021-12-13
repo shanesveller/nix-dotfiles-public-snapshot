@@ -26,7 +26,6 @@
   networking.networkmanager.enable = true;
   networking.useDHCP = false;
   networking.useNetworkd = false;
-  networking.wicd.enable = false;
   networking.wireless.enable = false;
 
   services.connman.enable = false;

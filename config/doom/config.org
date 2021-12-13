@@ -543,6 +543,13 @@ References:
     :pin "56e66f92d29e64abf46c49d7a3f08c64c8bbbe8a"))
 #+end_src
 ** Bugfixes and Backports
+*** Emacs from git with General
+[2021-11-23 Tue]
+#+begin_src emacs-lisp
+(after! general
+  (general-auto-unbind-keys :off)
+  (remove-hook 'doom-after-init-modules-hook #'general-auto-unbind-keys))
+#+end_src
 *** Elixir LSP formatting :elixir:
 [2021-08-10 Tue]
 #+begin_src emacs-lisp

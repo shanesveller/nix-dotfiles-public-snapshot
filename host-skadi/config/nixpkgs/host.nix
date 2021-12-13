@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ config, flake, pkgs, ... }: {
   programs.shanesveller = {
     work.enable = true;
 
@@ -11,7 +11,7 @@
     emacs = {
       doom = true;
       enable = true;
-      package = pkgs.emacsGcc;
+      package = flake.packages.x86_64-darwin.emacs;
       latex = false;
     };
     vim.enable = true;

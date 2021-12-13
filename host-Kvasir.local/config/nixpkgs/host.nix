@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ config, flake, pkgs, ... }: {
   home.homeDirectory = "/Users/shane";
   home.username = "shane";
 
@@ -14,7 +14,7 @@
     emacs = {
       doom = true;
       enable = true;
-      package = pkgs.emacsGcc;
+      package = flake.packages.x86_64-darwin.emacs;
       latex = false;
     };
     vim.enable = true;

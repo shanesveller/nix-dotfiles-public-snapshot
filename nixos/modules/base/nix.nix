@@ -1,5 +1,5 @@
 { pkgs, ... }: {
-  environment.systemPackages = with pkgs; [ cachix nix-tree ];
+  environment.systemPackages = with pkgs; [ cachix hydra-check nix-tree ];
   nix.extraOptions = ''
     keep-derivations = true
     keep-outputs = true

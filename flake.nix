@@ -17,16 +17,16 @@
     flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
     flake-utils-plus.inputs.flake-utils.follows = "flake-utils";
     home-manager = {
-      url = "github:nix-community/home-manager/release-21.05";
+      url = "github:nix-community/home-manager/release-21.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager-unstable = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "unstable";
     };
-    nixpkgs-darwin.url = "nixpkgs/nixpkgs-21.05-darwin";
+    nixpkgs-darwin.url = "nixpkgs/nixpkgs-21.11-darwin";
     nixpkgs-master.url = "nixpkgs/master";
-    nixpkgs.url = "nixpkgs/nixos-21.05";
+    nixpkgs.url = "nixpkgs/nixos-21.11";
     pre-commit = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs.flake-utils.follows = "flake-utils";
@@ -172,7 +172,7 @@
         unstable-1password = final: prev: {
           inherit (prev.unstable) _1password;
           # https://github.com/NixOS/nixpkgs/commit/c7fd252d324f6eb4eeb9a769d1533cb4ede361ad
-          _1password-gui = prev._1password-gui.overrideAttrs (orig: {
+          _1password-gui = prev._1password-gui.overrideAttrs (_orig: {
             version = "8.3.0";
             sha256 = "1cakv316ipwyw6s3x4a6qhl0nmg17bxhh08c969gma3svamh1grw";
           });
@@ -197,7 +197,6 @@
         heimdall = {
           extraArgs = { flake = self; };
           modules = [
-            ({ pkgs, ... }: { })
             nixpkgs.nixosModules.notDetected
             home-manager.nixosModules.home-manager
             ./nixos/machines/heimdall
@@ -361,7 +360,7 @@
               '';
             };
             system_pkgs = if system == "x86_64-linux" then {
-              emacs = pkgs.unstable.emacsPgtkGcc;
+              emacs = pkgs.emacsPgtkGcc;
               gcroot = self.pkgs."${system}".nixpkgs.linkFarmFromDrvs "dotfiles"
                 (with self.outputs; [
                   devShell."${system}".inputDerivation
@@ -384,7 +383,7 @@
                 self.outputs.darwinConfigurations.kvasir.config.system.build.toplevel;
               darwin-skadi =
                 self.outputs.darwinConfigurations.skadi.config.system.build.toplevel;
-              emacs = pkgs.unstable.emacsGcc;
+              emacs = pkgs.emacsGcc;
               gcroot-kvasir = mkGcRoot "kvasir";
               gcroot-skadi = mkGcRoot "skadi";
               home-kvasir =
@@ -420,12 +419,36 @@
           src = ./.;
           hooks = {
             nix-linter.enable = true;
+            nix-linter.excludes = [ "flake.nix" ];
             nixfmt.enable = true;
             shellcheck.enable = true;
           };
-          # settings = {
-          #   nix-linter.checks = [ "AlphabeticalArgs" ];
-          # };
+          settings.nix-linter.checks = [
+            # flake.nix: Warns on outputs = inputs@{ ... }
+            "AlphabeticalArgs"
+            # flake.nix: Warns on seemingly sorted attrsets
+            "AlphabeticalBindings"
+            "BetaReduction"
+            "DIYInherit"
+            "EmptyInherit"
+            "EmptyLet"
+            # flake.nix: Warns on home-manager configurations using { ... }
+            "EmptyVariadicParamSet"
+            "EtaReduce"
+            "FreeLetInFunc"
+            "LetInInheritRecset"
+            "ListLiteralConcat"
+            "NegateAtom"
+            "SequentialLet"
+            "SetLiteralUpdate"
+            "UnfortunateArgName"
+            "UnneededAntiquote"
+            "UnneededRec"
+            # flake.nix: Warns on final/prev mandatory names for overlay arguments
+            "UnusedArg"
+            "UnusedLetBind"
+            "UpdateEmptySet"
+          ];
         };
 
       checks.x86_64-linux.pre-commit-check =

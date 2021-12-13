@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ config, flake, pkgs, ... }: {
   programs.shanesveller = {
     home.enable = true;
 
@@ -11,8 +11,7 @@
     emacs = {
       doom = true;
       enable = true;
-      # TODO: Overlay
-      package = pkgs.emacsPgtkGcc;
+      package = flake.packages.x86_64-linux.emacs;
       latex = true;
     };
     vim.enable = true;

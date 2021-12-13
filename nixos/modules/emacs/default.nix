@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ flake, pkgs, ... }:
 
 {
   services.emacs = {
@@ -9,7 +9,7 @@
     #   enable = true;
     #   arguments = [ "-c" ];
     # };
-    package = pkgs.emacsPgtkGcc;
+    package = flake.packages.x86_64-linux.emacs;
     # socketActivation.enable = false;
   };
 }

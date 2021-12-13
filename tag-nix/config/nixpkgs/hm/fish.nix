@@ -65,6 +65,13 @@ in {
             set -g --append PATH ${config.xdg.configHome}/emacs/bin
           '')
 
+        (mkIf (cfg.omf) ''
+          set -g default_user ${cfg.username}
+          set -g fish_greeting ""
+          set -g fish_key_bindings fish_default_key_bindings
+          set -g fish_prompt_pwd_dir_length 2
+        '')
+
         (mkIf pkgs.stdenv.isDarwin ''
           /usr/bin/ssh-add -l | grep "The agent has no identities." >/dev/null; and /usr/bin/ssh-add -A >/dev/null
         '')
@@ -82,13 +89,6 @@ in {
       }];
 
       # https://github.com/oh-my-fish/theme-bobthefish#configuration
-      promptInit = ''
-        set -g default_user ${cfg.username}
-        set -g fish_greeting ""
-        set -g fish_key_bindings fish_default_key_bindings
-        set -g fish_prompt_pwd_dir_length 2
-      '';
-
       shellInit = ''
         set -g --prepend fish_user_paths $HOME/.nix-profile/bin
       '';

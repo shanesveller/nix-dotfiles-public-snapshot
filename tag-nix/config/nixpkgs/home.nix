@@ -3,8 +3,17 @@
 {
   config = {
     home.packages = with pkgs;
-      [ nix-diff nix-du nix-info nix-prefetch-scripts nixfmt nixpkgs-fmt ]
-      ++ pkgs.lib.optional (pkgs.stdenv.isLinux) pkgs.nix-serve;
+      [
+        cachix
+        hydra-check
+        nix-diff
+        nix-du
+        nix-info
+        nix-prefetch-scripts
+        nix-tree
+        nixfmt
+        nixpkgs-fmt
+      ] ++ pkgs.lib.optional (pkgs.stdenv.isLinux) pkgs.nix-serve;
 
     home.stateVersion = "20.09";
 
