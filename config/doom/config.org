@@ -230,7 +230,7 @@ json              ; At least it ain't XML
 ;;lua               ; one-based indices? one-based indices
 markdown          ; writing docs for people to ignore
 ;;nim               ; python + lisp at the speed of c
-nix               ; I hereby declare "nix geht mehr!"
+(nix +lsp)        ; I hereby declare "nix geht mehr!"
 ;;ocaml             ; an objective camel
 (org              ; organize your plain life in plain text
  +brain
@@ -335,6 +335,12 @@ Don't install daemon-interaction packages on MacOS.
   :pin "de6454949045453e0fa025e605b445c3ca05c62a")
 #+end_src
 ** Backports and Bugfixes
+*** Code-review
+[2021-12-29 Wed]
+https://github.com/hlissner/doom-emacs/issues/5940#issuecomment-1002003631
+#+begin_src emacs-lisp
+(package! code-review :disable t)
+#+end_src
 *** TTY
 [2021-07-19 Mon]
 Somewhat reliably introduces errors on ~emacsclient -t~.
@@ -397,9 +403,14 @@ Somewhat reliably introduces errors on ~emacsclient -t~.
 #+end_src
 ** Features
 *** LSP
-#+begin_src emacs-lisp :tangle no
-(after! lsp-ui
-  (setq lsp-ui-doc-enable t))
+#+begin_src emacs-lisp
+(when (featurep! :tools lsp)
+  (after! lsp
+    (setq
+     lsp-lens-enable nil))
+  (after! lsp-ui
+    (setq
+     lsp-ui-doc-enable nil)))
 #+end_src
 *** Magit
 #+begin_src emacs-lisp
@@ -460,6 +471,18 @@ References:
 (when (and (featurep! :completion company) (featurep! :lang nix))
   (after! company
     (setq-hook! 'nix-mode-hook company-idle-delay nil)))
+#+end_src
+**** rnix-lsp
+#+begin_src emacs-lisp
+(when (and
+       (featurep! :lang nix +lsp)
+       (featurep! :tools lsp))
+  (after! lsp
+    (add-to-list 'lsp-language-id-configuration '(nix-mode . "nix"))
+    (lsp-register-client
+     (make-lsp-client :new-connection (lsp-stdio-connection '("rnix-lsp"))
+                      :major-modes '(nix-mode)
+                      :server-id 'nix))))
 #+end_src
 *** Infrastructure as Code :jsonnet:
 #+begin_src emacs-lisp
@@ -543,9 +566,12 @@ References:
     :pin "56e66f92d29e64abf46c49d7a3f08c64c8bbbe8a"))
 #+end_src
 ** Bugfixes and Backports
-*** Emacs from git with General
+*** Emacs from git with General :ARCHIVE:
 [2021-11-23 Tue]
-#+begin_src emacs-lisp
+https://github.com/hlissner/doom-emacs/issues/5785
+[2021-12-12 Sun]
+https://github.com/hlissner/doom-emacs/commit/5535457229d57e346087825c3caee51b47f75d08
+#+begin_src emacs-lisp :tangle no
 (after! general
   (general-auto-unbind-keys :off)
   (remove-hook 'doom-after-init-modules-hook #'general-auto-unbind-keys))

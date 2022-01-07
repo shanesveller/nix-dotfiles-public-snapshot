@@ -10,6 +10,7 @@
     ../../networks/asgard
     ./network.nix
     # ../../modules/gitlab-runner
+    ../../modules/gaming-headless
     # ../../modules/hydra
     # ../../modules/plex
     # ../../modules/virt

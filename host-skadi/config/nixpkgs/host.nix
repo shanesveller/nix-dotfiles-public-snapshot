@@ -41,8 +41,8 @@
     go.package = pkgs.go_1_15;
     kube.enable = false;
     kube.home = false;
-    node.enable = true;
-    rust.enable = true;
+    node.enable = false;
+    rust.enable = false;
     rust.sccache = false;
 
     data = {

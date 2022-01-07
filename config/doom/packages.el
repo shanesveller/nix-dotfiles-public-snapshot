@@ -34,6 +34,10 @@
   :pin "de6454949045453e0fa025e605b445c3ca05c62a")
 ;; org-mode:1 ends here
 
+;; [[file:config.org::*Code-review][Code-review:1]]
+(package! code-review :disable t)
+;; Code-review:1 ends here
+
 ;; [[file:config.org::*Just][Just:1]]
 (package! just-mode
   :pin "45c248fe72d4a15c5a9f26bc0b27adb874265f53")

@@ -1,78 +1,35 @@
 { pkgs, ... }:
 
 let
-  mkCacheConfig = remoteUrl:
-    pkgs.writeTextFile {
-      name = "config.yml";
-      text = ''
-        version: 0.1
-        log:
-          fields:
-            service: registry
-        storage:
-          cache:
-            blobdescriptor: inmemory
-          filesystem:
-            rootdirectory: /var/lib/registry
-        delete:
-          enabled: true
-        http:
-          addr: :5000
-          headers:
-            X-Content-Type-Options: [nosniff]
-        health:
-          storagedriver:
-            enabled: true
-            interval: 30s
-            threshold: 3
-        proxy:
-          remoteurl: ${remoteUrl}
-      '';
-    };
-
-  # Credit: https://discourse.nixos.org/t/deploying-docker-containers-declaratively/693/5
-  mkCacheService = serviceName: port: remoteUrl:
-    let
-      image = "registry:2";
-      config = mkCacheConfig remoteUrl;
-    in {
-      description = "Docker Registry Cache - ${remoteUrl}";
-      wantedBy = [ "multi-user.target" ];
-      after = [ "docker.service" "docker.socket" ];
-      requires = [
-        "docker.service"
-        "docker.socket"
-        "var-lib-docker\\x2dregistry.mount"
-      ];
-      script = ''
-        exec ${pkgs.docker}/bin/docker run \
-          --rm \
-          --publish=${toString port}:5000 \
-          --name=${serviceName} \
-          --network=cached \
-          --volume=${config}:/etc/docker/registry/config.yml \
-          --volume=${serviceName}:/var/lib/registry \
-          ${image}
-      '';
-      preStop = "${pkgs.docker}/bin/docker stop ${serviceName}";
-      reload = "${pkgs.docker}/bin/docker restart ${serviceName}";
-      restartTriggers = [ config ];
-      serviceConfig = {
-        ExecStartPre = [
-          "-${pkgs.docker}/bin/docker rm -f ${serviceName}"
-          "-${pkgs.docker}/bin/docker volume create ${serviceName}"
-        ];
-        ExecStopPost = "-${pkgs.docker}/bin/docker rm -f ${serviceName}";
-        # TimeoutStartSec = 0;
-        # TimeoutStopSec = 120;
-        Restart = "always";
+  makeCacheContainer = namespace: port: REGISTRY_PROXY_REMOTEURL: {
+    autoStart = true;
+    ephemeral = true;
+    config = { ... }: {
+      services.dockerRegistry.enable = true;
+      services.dockerRegistry.enableGarbageCollect = true;
+      services.dockerRegistry.enableRedisCache = false;
+      services.dockerRegistry.port = port;
+      services.dockerRegistry.extraConfig = {
+        inherit REGISTRY_PROXY_REMOTEURL;
       };
     };
+    bindMounts = {
+      "/var/lib/docker-registry" = {
+        hostPath = "/srv/docker-registry-caches/${namespace}";
+        isReadOnly = false;
+      };
+    };
+  };
 in {
+  containers.dockerHubProxy =
+    makeCacheContainer "docker" 5001 "https://registry-1.docker.io";
+  containers.gcrProxy = makeCacheContainer "docker" 5003 "https://gcr.io";
+  containers.ghcrProxy = makeCacheContainer "docker" 5002 "https://ghcr.io";
+
   environment.systemPackages = with pkgs; [ docker-compose ];
 
   services.dockerRegistry = {
-    enable = false;
+    enable = true;
     enableDelete = true;
     enableGarbageCollect = true;
     garbageCollectDates = "daily";
@@ -80,20 +37,19 @@ in {
   };
 
   systemd.services = {
-    docker.unitConfig.RequiresMountFor = "/var/lib/docker";
-
-    docker-hub-registry-cache =
-      mkCacheService "registry.localhost" 5000 "https://registry-1.docker.io";
-    github-registry-cache =
-      mkCacheService "ghcr-registry.localhost" 5001 "https://ghcr.io";
-    google-registry-cache =
-      mkCacheService "gcr-registry.localhost" 5002 "https://gcr.io";
+    "container@dockerHubProxy".unitConfig.RequiresMountFor =
+      "/srv/docker-registry-caches";
+    "container@gcrProxy".unitConfig.RequiresMountFor =
+      "/srv/docker-registry-caches";
+    "container@ghcrProxy".unitConfig.RequiresMountFor =
+      "/srv/docker-registry-caches";
   };
 
   users.extraUsers.shane = { extraGroups = [ "docker" ]; };
 
+  virtualisation.docker.autoPrune.enable = true;
   virtualisation.docker.enable = true;
-  virtualisation.docker.enableOnBoot = true;
+  virtualisation.docker.enableOnBoot = false;
   # Openshift `oc cluster up`
   # virtualisation.docker.extraOptions = "--insecure-registry=172.30.0.0/16";
   virtualisation.docker.package = pkgs.docker;

@@ -97,7 +97,6 @@ in {
         brewdated =
           mkIf (pkgs.stdenv.isDarwin) "brew update; and brew outdated";
         fig = "docker-compose";
-        git = "hub";
         hm = "home-manager";
         hmc = "nvim $HOME/.config/nixpkgs/home.nix";
         hmcp = "nvim $HOME/.config/nixpkgs/hm/";

@@ -48,7 +48,7 @@ in {
 
     programs.lsd.enable = pkgs ? lsd;
     programs.skim.enable = (pkgs ? fd && pkgs ? skim);
-    programs.taskwarrior.enable = true;
+    programs.taskwarrior.enable = false;
 
     services.gpg-agent = {
       enable = pkgs.stdenv.isLinux;
@@ -123,7 +123,6 @@ in {
         fdupes
         hugo # lags in nix
         pandoc # lags in nix
-        pre-commit
         restic # lags in nix
         telnet
       ] ++ pkgs.lib.optionals (cfg.work) [ bitwarden-cli ]

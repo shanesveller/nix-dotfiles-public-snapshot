@@ -7,9 +7,5 @@
 
   powerManagement.cpuFreqGovernor = "performance";
 
-  programs.steam.enable = true;
-
-  users.users.shane = {
-    packages = [ pkgs.mudlet pkgs.unstable.multimc pkgs.unstable.steam-run ];
-  };
+  users.users.shane = { packages = [ pkgs.unstable.steam-run ]; };
 }

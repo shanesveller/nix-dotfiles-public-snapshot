@@ -1,3 +1,1 @@
-{ pkgs, ... }: {
-  users.users.shane = { packages = with pkgs; [ git gitAndTools.hub ]; };
-}
+{ pkgs, ... }: { users.users.shane = { packages = with pkgs; [ git ]; }; }

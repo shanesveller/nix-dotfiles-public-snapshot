@@ -69,8 +69,6 @@ in {
           git-revise
           git-trim
           gh
-          hub
-          pre-commit
         ]);
 
       programs.git = {
@@ -122,7 +120,7 @@ in {
         };
 
         extraConfig = {
-          credential.helper = "osxkeychain";
+          credential.helper = lib.optional (pkgs.stdenv.isDarwin) "osxkeychain";
           diff.compactionHeuristic = true;
           "diff \"sopsdiffer\"".textconf = "sops -d";
           difftool.prompt = false;

@@ -41,6 +41,16 @@
         evil-vsplit-window-right t))
 ;; Window Management:1 ends here
 
+;; [[file:config.org::*LSP][LSP:1]]
+(when (featurep! :tools lsp)
+  (after! lsp
+    (setq
+     lsp-lens-enable nil))
+  (after! lsp-ui
+    (setq
+     lsp-ui-doc-enable nil)))
+;; LSP:1 ends here
+
 ;; [[file:config.org::*Magit][Magit:1]]
 (after! forge
   (setq forge-owned-accounts '(("shanesveller" . "personal"))))
@@ -96,6 +106,18 @@
   (after! company
     (setq-hook! 'nix-mode-hook company-idle-delay nil)))
 ;; Nix:1 ends here
+
+;; [[file:config.org::*rnix-lsp][rnix-lsp:1]]
+(when (and
+       (featurep! :lang nix +lsp)
+       (featurep! :tools lsp))
+  (after! lsp
+    (add-to-list 'lsp-language-id-configuration '(nix-mode . "nix"))
+    (lsp-register-client
+     (make-lsp-client :new-connection (lsp-stdio-connection '("rnix-lsp"))
+                      :major-modes '(nix-mode)
+                      :server-id 'nix))))
+;; rnix-lsp:1 ends here
 
 ;; [[file:config.org::*Infrastructure as Code][Infrastructure as Code:1]]
 (use-package! jsonnet-mode)
@@ -164,12 +186,6 @@
 (when (featurep! :lang org +roam2)
   (setq org-roam-directory (file-truename "~/Dropbox/org/roam")))
 ;; org-roam:1 ends here
-
-;; [[file:config.org::*Emacs from git with General][Emacs from git with General:1]]
-(after! general
-  (general-auto-unbind-keys :off)
-  (remove-hook 'doom-after-init-modules-hook #'general-auto-unbind-keys))
-;; Emacs from git with General:1 ends here
 
 ;; [[file:config.org::*Elixir LSP formatting][Elixir LSP formatting:1]]
 (when (and (featurep! :lang elixir) (featurep! :tools lsp))

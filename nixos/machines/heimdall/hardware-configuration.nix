@@ -30,9 +30,30 @@
     fsType = "zfs";
   };
 
+  # zfs create -o mountpoint=legacy rpool/local/backups
+  fileSystems."/srv/backups" = {
+    device = "rpool/local/backups";
+    fsType = "zfs";
+    options = [ "nofail" ];
+  };
+
+  # zfs create -o mountpoint=legacy rpool/local/docker-registry-caches
+  fileSystems."/srv/docker-registry-caches" = {
+    device = "rpool/local/docker-registry-caches";
+    fsType = "zfs";
+    options = [ "nofail" ];
+  };
+
   # zfs create -o mountpoint=legacy rpool/user/dropbox
   fileSystems."/srv/dropbox" = {
     device = "rpool/user/dropbox";
+    fsType = "zfs";
+    options = [ "nofail" ];
+  };
+
+  # zfs create -o mountpoint=legacy rpool/local/git
+  fileSystems."/srv/git" = {
+    device = "rpool/local/git";
     fsType = "zfs";
     options = [ "nofail" ];
   };
@@ -79,4 +100,15 @@
 
   # high-resolution display
   hardware.video.hidpi.enable = lib.mkDefault true;
+
+  systemd.services = {
+    "container@dockerHubProxy".unitConfig.RequiresMountFor =
+      "/srv/docker-registry-caches";
+    "container@gcrProxy".unitConfig.RequiresMountFor =
+      "/srv/docker-registry-caches";
+    "container@ghcrProxy".unitConfig.RequiresMountFor =
+      "/srv/docker-registry-caches";
+    docker.unitConfig.RequiresMountFor = "/var/lib/docker";
+    gitea.unitConfig.RequiresMountFor = "/srv/backups /srv/git";
+  };
 }

@@ -2,6 +2,10 @@
   description = "Shane Sveller's Nix/NixOS configurations";
 
   inputs = {
+    agenix = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:ryantm/agenix";
+    };
     cloud-native = {
       url = "github:shanesveller/flake-cloud-native";
       inputs.flake-utils.follows = "flake-utils";
@@ -200,6 +204,7 @@
             nixpkgs.nixosModules.notDetected
             home-manager.nixosModules.home-manager
             ./nixos/machines/heimdall
+            inputs.agenix.nixosModules.age
           ];
         };
 
@@ -239,6 +244,7 @@
             nixpkgs.nixosModules.notDetected
             home-manager.nixosModules.home-manager
             ./nixos/machines/yggdrasil
+            inputs.agenix.nixosModules.age
           ];
         };
       };
@@ -398,14 +404,8 @@
             name = "devShell";
 
             buildInputs = with pkgs;
-              [
-                fup-repl
-                (import home-manager { inherit pkgs; }).home-manager
-                neovim
-                rcm
-                ripgrep
-                watchexec
-              ] ++ (with self.outputs.packages.${system}; [ nix-wrapper ]);
+              [ fup-repl neovim-unwrapped rcm ripgrep watchexec ]
+              ++ (with self.outputs.packages.${system}; [ nix-wrapper ]);
 
             NIX_PATH = "nixpkgs=${inputs.nixpkgs}:unstable=${inputs.unstable}";
             RCRC = toString ./rcrc;

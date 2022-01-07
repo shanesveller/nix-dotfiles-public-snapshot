@@ -9,7 +9,7 @@
         nix-diff
         nix-du
         nix-info
-        nix-prefetch-scripts
+        nix-prefetch-git
         nix-tree
         nixfmt
         nixpkgs-fmt
