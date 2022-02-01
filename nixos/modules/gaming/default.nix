@@ -10,6 +10,6 @@
   programs.steam.enable = true;
 
   users.users.shane = {
-    packages = [ pkgs.mudlet pkgs.unstable.multimc pkgs.unstable.steam-run ];
+    packages = [ pkgs.mudlet pkgs.master.polymc pkgs.unstable.steam-run ];
   };
 }

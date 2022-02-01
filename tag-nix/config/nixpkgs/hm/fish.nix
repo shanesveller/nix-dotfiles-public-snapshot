@@ -56,8 +56,6 @@ in {
 
           functions -e __add_path_if_exists
           functions -e __source_file_if_exists
-
-          set -eg SHELL
         ''
 
         (mkIf (config.programs.shanesveller.emacs.enable

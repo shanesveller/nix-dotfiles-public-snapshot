@@ -61,6 +61,7 @@ in {
       home.packages = with pkgs;
         [
           clog-cli
+          unstable.gfold
           # (python37.withPackages (ps: with ps; [ virtualenv ]))
         ] ++ (with pkgs.gitAndTools; [
           git-absorb

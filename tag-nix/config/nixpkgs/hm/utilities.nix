@@ -116,6 +116,7 @@ in {
         watch
         watchexec # not present in nix
         wrk
+        unstable.zellij
         # TODO: cross-module config lookup
       ] ++ pkgs.lib.optionals (cfg.home) [
         ansible
@@ -127,7 +128,7 @@ in {
         telnet
       ] ++ pkgs.lib.optionals (cfg.work) [ bitwarden-cli ]
       ++ pkgs.lib.optional (stdenv.isDarwin) pinentry_mac
-      ++ pkgs.lib.optional (stdenv.isLinux) pkgs._1password;
+      ++ pkgs.lib.optionals (stdenv.isLinux) (with pkgs; [ _1password t-rec ]);
 
     # TODO: Overlay
     # nixpkgs.overlays =

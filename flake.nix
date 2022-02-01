@@ -404,13 +404,22 @@
             name = "devShell";
 
             buildInputs = with pkgs;
-              [ fup-repl neovim-unwrapped rcm ripgrep watchexec ]
+              [ fup-repl neovim rcm ripgrep watchexec ]
               ++ (with self.outputs.packages.${system}; [ nix-wrapper ]);
 
             NIX_PATH = "nixpkgs=${inputs.nixpkgs}:unstable=${inputs.unstable}";
             RCRC = toString ./rcrc;
 
             inherit (self.checks.${system}.pre-commit-check) shellHook;
+          };
+
+          devShells.emacs = nixpkgs.mkShell {
+            name = "dotfiles-emacs";
+            buildInputs = with pkgs;
+              [ emacs ]
+              ++ (with self.outputs.packages.${system}; [ nix-wrapper ]);
+
+            NIX_PATH = "nixpkgs=${inputs.nixpkgs}:unstable=${inputs.unstable}";
           };
         };
 

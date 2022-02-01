@@ -23,7 +23,7 @@
 ;; Docker:1 ends here
 
 ;; [[file:config.org::*Kubernetes][Kubernetes:1]]
-(package! jsonnet-mode :pin "63c0f44fe7b5a333173235db7102ef8c2ae0b006")
+(package! jsonnet-mode :pin "d188745d1b42e1a28723dade1e5f7caf1282cb01")
 ;; Kubernetes:1 ends here
 
 ;; [[file:config.org::*org-mode][org-mode:1]]
@@ -40,5 +40,5 @@
 
 ;; [[file:config.org::*Just][Just:1]]
 (package! just-mode
-  :pin "45c248fe72d4a15c5a9f26bc0b27adb874265f53")
+  :pin "8cf9e686c8c7bb725c724b5220a4a3ed17d005d0")
 ;; Just:1 ends here

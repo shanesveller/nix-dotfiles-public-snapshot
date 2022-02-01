@@ -324,7 +324,7 @@ Don't install daemon-interaction packages on MacOS.
 #+end_src
 *** Kubernetes :jsonnet:
 #+begin_src emacs-lisp
-(package! jsonnet-mode :pin "63c0f44fe7b5a333173235db7102ef8c2ae0b006")
+(package! jsonnet-mode :pin "d188745d1b42e1a28723dade1e5f7caf1282cb01")
 #+end_src
 ** org-mode
 #+begin_src emacs-lisp
@@ -504,15 +504,15 @@ References:
         (setq rustic-lsp-server 'rust-analyzer
               lsp-rust-analyzer-cargo-watch-command "clippy"
               lsp-rust-analyzer-display-chaining-hints t
-              lsp-rust-analyzer-display-parameter-hints t))))
-
+              lsp-rust-analyzer-display-parameter-hints t
+              lsp-rust-analyzer-import-enforce-granularity t))))
 #+end_src
 **** Just
 [2021-08-08 Sun]
 [[https://github.com/casey/just/tree/f5689617f46b8e9c49d1de1f236452126d074310#emacs][Reference]]
 #+begin_src emacs-lisp :tangle "packages.el"
 (package! just-mode
-  :pin "45c248fe72d4a15c5a9f26bc0b27adb874265f53")
+  :pin "8cf9e686c8c7bb725c724b5220a4a3ed17d005d0")
 #+end_src
 #+begin_src emacs-lisp
 (when (featurep! :lang rust)
@@ -538,12 +538,6 @@ References:
       (interactive)
       (org-roam-node-find nil "Index"))
     (map!
-     (:when (featurep! :lang org +brain)
-      (:map doom-leader-open-map
-       "B" 'org-brain-visualize)
-      (:map org-mode-map
-       :localleader
-       "B" 'org-brain-visualize))
      (:when (featurep! :lang org +roam2)
       (:map doom-leader-notes-map
        "r J" 'org-roam-jump-to-index))))
@@ -563,7 +557,7 @@ References:
 ;; https://github.com/org-roam/org-roam/compare/org-roam:028c95a...org-roam:127d6ef
 (when (featurep! :lang org +roam2)
   (package! org-roam
-    :pin "56e66f92d29e64abf46c49d7a3f08c64c8bbbe8a"))
+    :pin "679ef6ef001fd1a69b691108178721aa913e7f0f"))
 #+end_src
 ** Bugfixes and Backports
 *** Emacs from git with General :ARCHIVE:

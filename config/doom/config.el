@@ -138,7 +138,8 @@
         (setq rustic-lsp-server 'rust-analyzer
               lsp-rust-analyzer-cargo-watch-command "clippy"
               lsp-rust-analyzer-display-chaining-hints t
-              lsp-rust-analyzer-display-parameter-hints t))))
+              lsp-rust-analyzer-display-parameter-hints t
+              lsp-rust-analyzer-import-enforce-granularity t))))
 ;; Rust:1 ends here
 
 ;; [[file:config.org::*Just][Just:2]]
@@ -165,12 +166,6 @@
       (interactive)
       (org-roam-node-find nil "Index"))
     (map!
-     (:when (featurep! :lang org +brain)
-      (:map doom-leader-open-map
-       "B" 'org-brain-visualize)
-      (:map org-mode-map
-       :localleader
-       "B" 'org-brain-visualize))
      (:when (featurep! :lang org +roam2)
       (:map doom-leader-notes-map
        "r J" 'org-roam-jump-to-index))))
