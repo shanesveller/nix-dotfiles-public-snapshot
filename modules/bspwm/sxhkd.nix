@@ -33,6 +33,9 @@ in {
         "super + alt + {q,r}" = "${bspwm_cfg.package}/bin/bspc {quit,wm -r}";
         # close/kill
         "super + {_,shift + }w" = "${bspwm_cfg.package}/bin/bspc node -{c,k}";
+        # lock screen
+        "super + shift + l" = "${pkgs.systemd}/bin/loginctl lock-session";
+
         # alternate between the tiled and monocle layout
         "super + m" = "${bspwm_cfg.package}/bin/bspc desktop -l next";
         # send the newest marked node to the newest preselected node
@@ -110,5 +113,7 @@ in {
           "${bspwm_cfg.package}/bin/bspc node -v {-20 0,0 20,0 -20,20 0}";
       };
     };
+
+    xsession.profileExtra = "export SXKHD_SHELL=sh";
   };
 }

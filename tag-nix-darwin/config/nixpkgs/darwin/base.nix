@@ -16,8 +16,8 @@
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
-  # set via flake-utils-plus
-  # nix.package = pkgs.nixUnstable;
+  # defaults to nixUnstable via flake-utils-plus
+  nix.package = pkgs.unstable.nixUnstable;
   nix.trustedUsers = [ "@admin" "@staff" ];
   nix.extraOptions = ''
     auto-optimise-store = false

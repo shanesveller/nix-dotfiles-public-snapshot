@@ -42,3 +42,9 @@
 (package! just-mode
   :pin "8cf9e686c8c7bb725c724b5220a4a3ed17d005d0")
 ;; Just:1 ends here
+
+;; [[file:config.org::*RON][RON:1]]
+(package! ron-mode
+  :recipe (:host github :repo "rhololkeolke/ron-mode")
+  :pin "9c1603f705e4857ee27ff2cc13a469d08fcee98a")
+;; RON:1 ends here

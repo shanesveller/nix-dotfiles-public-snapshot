@@ -88,6 +88,7 @@ in {
         httpie
         ipcalc
         jid
+        jless
         jo
         mr # lags in nix
         mtr
@@ -116,7 +117,7 @@ in {
         watch
         watchexec # not present in nix
         wrk
-        unstable.zellij
+        zellij
         # TODO: cross-module config lookup
       ] ++ pkgs.lib.optionals (cfg.home) [
         ansible
@@ -124,6 +125,7 @@ in {
         fdupes
         hugo # lags in nix
         pandoc # lags in nix
+        pre-commit
         restic # lags in nix
         telnet
       ] ++ pkgs.lib.optionals (cfg.work) [ bitwarden-cli ]

@@ -22,6 +22,7 @@ let
       "officer" = "~/src/side-projects/kubernetes-operators/officer";
       "org" = "~/Dropbox/org";
       "playground" = "~/src/rust/playground";
+      "rampart" = "~/src/side-projects/games/rampart";
       "realm" = "~/src/side-projects/mud/realmatic_theory";
       "tf" = "~/src/infra/terraform";
       "tabletop" = "~/src/side-projects/tabletop/backend";

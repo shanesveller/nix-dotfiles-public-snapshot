@@ -3,7 +3,13 @@
 {
   imports = [ ./docker.nix ./k3s.nix ];
 
-  environment.systemPackages = with pkgs; [ virt-manager xfsprogs ];
+  environment.systemPackages = with pkgs; [
+    firecracker
+    firectl
+    ignite
+    virt-manager
+    xfsprogs
+  ];
 
   users.extraUsers.shane = { extraGroups = [ "libvirtd" ]; };
 

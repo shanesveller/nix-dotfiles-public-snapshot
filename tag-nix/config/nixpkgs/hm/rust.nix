@@ -11,8 +11,17 @@ in {
   config = mkIf cfg.enable {
     # TODO: Unstable overlay
     home.packages = with pkgs;
-      [ cargo-cache cargo-sweep just mdbook pkgs.rust-analyzer rustup ]
-      ++ lib.optionals (cfg.sccache) [ sccache ];
+      [
+        bacon
+        cargo-cache
+        cargo-hack
+        cargo-nextest
+        cargo-sweep
+        just
+        mdbook
+        pkgs.rust-analyzer
+        rustup
+      ] ++ lib.optionals (cfg.sccache) [ sccache ];
 
     # https://nixos.org/nixpkgs/manual/#sec-generators
     # https://github.com/NixOS/nixpkgs/blob/3645476e861588cec3b8aaa71d06d4b7487abcd4/lib/generators.nix#L111

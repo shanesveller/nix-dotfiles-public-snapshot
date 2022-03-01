@@ -63,6 +63,11 @@
                                        ("~/src/side-projects" . 2))))
 ;; Magit:1 ends here
 
+;; [[file:config.org::*Magit][Magit:2]]
+(after! magit
+  (setq magit-list-refs-sortby "-creatordate"))
+;; Magit:2 ends here
+
 ;; [[file:config.org::*Forge Auth][Forge Auth:1]]
 (when (featurep! :tools magit +forge)
   (add-to-list 'auth-sources (concat doom-private-dir "authinfo.gpg") t))
@@ -131,7 +136,7 @@
           plantuml-server-url "http://localhost:8080")))
 ;; PlantUML:1 ends here
 
-;; [[file:config.org::*Rust][Rust:1]]
+;; [[file:config.org::*Rust][Rust:2]]
 (when (featurep! :lang rust)
   (after! rustic
     (if (executable-find "rust-analyzer")
@@ -140,13 +145,19 @@
               lsp-rust-analyzer-display-chaining-hints t
               lsp-rust-analyzer-display-parameter-hints t
               lsp-rust-analyzer-import-enforce-granularity t))))
-;; Rust:1 ends here
+;; Rust:2 ends here
 
 ;; [[file:config.org::*Just][Just:2]]
 (when (featurep! :lang rust)
        (use-package! just-mode
          :mode "justfile\\'"))
 ;; Just:2 ends here
+
+;; [[file:config.org::*RON][RON:2]]
+(when (featurep! :lang rust)
+  (use-package! ron-mode
+    :mode "\\.ron\\'"))
+;; RON:2 ends here
 
 ;; [[file:config.org::*YAML][YAML:1]]
 (when (featurep! :lang yaml)

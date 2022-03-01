@@ -4,9 +4,7 @@
 
   imports = [ ./internet.nix ./sound.nix ];
 
-  # boot.plymouth.enable = true;
-
-  hardware.cpu.intel.updateMicrocode = true;
+  boot.plymouth.enable = true;
 
   services.xserver.enable = true;
 
@@ -14,6 +12,8 @@
     packages = with pkgs; [
       lshw
       # lsusb
+      xfce.thunar
+      xfce.thunar-dropbox-plugin
       usbutils
     ];
   };

@@ -83,6 +83,8 @@
             allowed = builtins.elem name allowedUnfree;
             allowedUnfree = [
               "1password"
+              "1password-cli"
+              "aseprite"
               "datagrip"
               "discord"
               "dropbox"
@@ -123,6 +125,8 @@
             unstable-rust-analyzer
             unstable-tailscale
             unstable-thunderbird
+            self.overlay
+            my-zellij
           ];
       };
       channels.nixpkgs-darwin.input = inputs.nixpkgs-darwin;
@@ -132,6 +136,8 @@
           nested-unstable
           unstable-nix-direnv
           unstable-rust-analyzer
+          self.overlay
+          my-zellij
         ];
       channels.master.input = inputs.nixpkgs-master;
       channels.unstable.input = inputs.unstable;
@@ -163,6 +169,11 @@
         my-cloud-native = final: prev: {
           inherit (inputs.cloud-native.legacyPackages.${prev.system})
             flux2 tanka;
+        };
+
+        my-zellij = final: prev: {
+          zellij = chooseNewer prev.unstable.zellij
+            (chooseNewer prev.zellijNext prev.zellij);
         };
 
         nested-master = final: prev: {
@@ -346,7 +357,7 @@
       outputsBuilder = channels:
         let
           system = channels.nixpkgs.system;
-          nixpkgs = if system == "x86-64-linux" then
+          nixpkgs = if system == "x86_64-linux" then
             channels.nixpkgs
           else
             channels.nixpkgs-darwin;
@@ -360,7 +371,32 @@
                 packages."${system}"."darwin-${systemName}"
                 packages."${system}"."home-${systemName}"
               ]);
-            shared = {
+            shared = let
+              callRustPackage = path:
+                pkgs.callPackage path {
+                  inherit (pkgs.unstable.rustPlatform) buildRustPackage;
+                };
+            in {
+              bacon = callRustPackage ./pkgs/bacon.nix;
+              cargo-hack = callRustPackage ./pkgs/cargo-hack.nix;
+              cargo-nextest = callRustPackage ./pkgs/cargo-nextest.nix;
+              jless = callRustPackage ./pkgs/jless.nix;
+              zellij = pkgs.callPackage ./pkgs/zellij.nix {
+                inherit (pkgs.darwin.apple_sdk.frameworks)
+                  DiskArbitration Foundation;
+              };
+
+              localPackages =
+                self.pkgs."${system}".nixpkgs.linkFarmFromDrvs "localPackages"
+                (with self.outputs.packages."${system}"; [
+                  bacon
+                  cargo-hack
+                  cargo-nextest
+                  emacs
+                  jless
+                  zellij
+                ]);
+
               nix-wrapper = pkgs.writeShellScriptBin "nix" ''
                 ${pkgs.nixFlakes}/bin/nix --option experimental-features "nix-command flakes ca-references" "$@"
               '';
@@ -468,5 +504,11 @@
             nixfmt.enable = true;
           };
         };
+
+      overlay = final: prev: {
+        inherit (self.outputs.packages.${prev.system})
+          bacon cargo-hack cargo-nextest jless;
+        zellijNext = self.outputs.packages.${prev.system}.zellij;
+      };
     };
 }

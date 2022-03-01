@@ -5,9 +5,11 @@
     ./desktop.nix
     ./editor.nix
     ./fonts.nix
+    ./gamedev.nix
     ./git.nix
     ./internet.nix
     ./kube.nix
+    ./media.nix
     ./security.nix
     ./shell.nix
     ../emacs

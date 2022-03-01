@@ -26,11 +26,17 @@ in {
       config = {
         "bar/main" = {
           enable-ipc = true;
+          font-0 = "FiraCode Nerd Font Mono:size=12:style=Regular;0";
+          font-1 = "FiraCode Nerd Font Mono:size=12:style=Light;0";
+          font-2 = "FiraCode Nerd Font Mono:size=12:style=Retina;0";
+          font-3 = "Noto Emoji:style=Regular;0";
           height = 30;
+          locale = "en_US.UTF-8";
           module-margin = 2;
-          modules-center = "";
+          modules-center = "title";
           modules-left = "bspwm";
-          modules-right = "network cpu datetime";
+          modules-right = "network cpu memory pulseaudio datetime";
+          separator = "|";
           throttle-output = 5;
           throttle-output-for = 10;
           tray-padding = 2;
@@ -43,14 +49,14 @@ in {
           pin-workspaces = true;
           inline-mode = false;
           enable-click = true;
-          enable-scroll = false;
+          enable-scroll = true;
           reverse-scroll = false;
-          ws-icon-0 = "I;";
-          ws-icon-1 = "II;";
-          ws-icon-2 = "III;";
-          ws-icon-3 = "IV;";
-          ws-icon-4 = "V;";
-          ws-icon-5 = "VI;";
+          ws-icon-0 = "dev;⚙";
+          ws-icon-1 = "chat;💬";
+          ws-icon-2 = "mail;📨";
+          ws-icon-3 = "games;♞";
+          ws-icon-4 = "media;𝅘𝅥𝅮";
+          ws-icon-5 = "util;🔧";
           ws-icon-6 = "VII;";
           ws-icon-7 = "VIII;";
           ws-icon-8 = "IX;";
@@ -74,14 +80,15 @@ in {
           label-occupied-underline = "\${colors.purple}";
           label-urgent-foreground = "\${colors.urgent}";
           label-urgent-underline = "\${colors.urgent}";
-          label-monocle = "";
-          label-tiled = "";
-          label-fullscreen = "";
-          label-floating = "";
+          label-monocle = "";
+          label-tiled = "";
+          label-fullscreen = "";
+          label-floating = "";
           label-pseudotiled = "P";
-          label-locked = "";
-          label-sticky = "";
-          label-private = "";
+          label-locked = "";
+          label-sticky = "";
+          label-private = "";
+          label-marked = "M";
           label-sticky-foreground = "\${colors.purple}";
           label-locked-foreground = "\${colors.moderate}";
           label-private-foreground = "\${colors.urgent}";
@@ -96,24 +103,40 @@ in {
 
         "module/datetime" = {
           type = "internal/date";
-          date = "%Y-%m-%d%";
+          date = "%m-%d%";
+          format = "⏲ <label>";
           interval = "1.0";
           label = "%date% - %time%";
           time = "%H:%M";
         };
 
+        "module/memory" = {
+          type = "internal/memory";
+          interval = 5;
+          label = "%gb_used%/%gb_total% (%mb_swap_used%)";
+        };
+
         "module/network" = {
           type = "internal/network";
           accumulate-stats = true;
-          interface = "enp0s31f6";
-          label-connected = "%local_ip% (%downspeed%/%upspeed%)";
+          interface = "enp5s0";
+          label-connected = "%downspeed%/%upspeed%";
           label-disconnected = "DOWN";
         };
 
         "module/pulseaudio" = {
           type = "internal/pulseaudio";
+          click-right = "${pkgs.pavucontrol}/bin/pavucontrol";
+          format-volume = "<ramp-volume> <label-volume>";
           interval = 5;
+          label-muted = "muted";
+          label-muted-foreground = "#666";
+          ramp-volume-0 = "🔈";
+          ramp-volume-1 = "🔉";
+          ramp-volume-2 = "🔊";
         };
+
+        "module/title" = { type = "internal/xwindow"; };
       };
       package = cfg.package;
       script = "polybar main &";

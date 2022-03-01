@@ -424,6 +424,13 @@ Somewhat reliably introduces errors on ~emacsclient -t~.
                                        ("~/src/not_me" . 1)
                                        ("~/src/side-projects" . 2))))
 #+end_src
+
+Sort refs by recency
+Credit: https://twitter.com/importantshock/status/1493589725495672833
+#+begin_src emacs-lisp
+(after! magit
+  (setq magit-list-refs-sortby "-creatordate"))
+#+end_src
 **** Forge Auth
 #+begin_src emacs-lisp
 (when (featurep! :tools magit +forge)
@@ -497,6 +504,12 @@ References:
           plantuml-server-url "http://localhost:8080")))
 #+end_src
 *** Rust
+3.0 release [2022-02-19 Sat]
+#+begin_src emacs-lisp :tangle no
+(package! rustic
+  :pin "b3f4442f7198eee758958196f89a150f8de8963a")
+#+end_src
+
 #+begin_src emacs-lisp
 (when (featurep! :lang rust)
   (after! rustic
@@ -519,6 +532,19 @@ References:
        (use-package! just-mode
          :mode "justfile\\'"))
 #+end_src
+**** RON
+[2022-02-22 Tue]
+#+begin_src emacs-lisp :tangle "packages.el"
+(package! ron-mode
+  :recipe (:host github :repo "rhololkeolke/ron-mode")
+  :pin "9c1603f705e4857ee27ff2cc13a469d08fcee98a")
+#+end_src
+#+begin_src emacs-lisp
+(when (featurep! :lang rust)
+  (use-package! ron-mode
+    :mode "\\.ron\\'"))
+#+end_src
+
 *** YAML
 #+begin_src emacs-lisp
 (when (featurep! :lang yaml)

@@ -10,6 +10,8 @@
   boot.kernelParams = [ "elevator=none" ];
   boot.extraModulePackages = [ ];
 
+  hardware.cpu.amd.updateMicrocode = true;
+
   fileSystems."/" = {
     device = "rpool/system/root";
     fsType = "zfs";

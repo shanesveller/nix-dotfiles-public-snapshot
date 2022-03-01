@@ -20,7 +20,7 @@ in {
   config = mkIf (cfg.enable && pkgs.stdenv.isLinux) {
     xsession.enable = true;
     xsession.initExtra = "";
-    xsession.profileExtra = "";
+    xsession.profileExtra = "export _JAVA_AWT_WM_NONREPARENTING=1";
     # master branch
     # xsession.profilePath = ".xprofile-hm";
     xsession.scriptPath = ".xsession-hm";
@@ -36,9 +36,25 @@ in {
       '';
       monitors = {
         # xrandr -q to identify monitor/port
-        DisplayPort-1 = [ "I" "II" "III" "IV" "V" "VI" "VII" "VIII" "IX" "X" ];
+        DisplayPort-1 =
+          [ "dev" "chat" "mail" "games" "media" "util" "VII" "VIII" "IX" "X" ];
       };
-      rules = { };
+      rules = {
+        "Alacritty" = { desktop = "dev"; };
+        "Aseprite" = { desktop = "media"; };
+        "Code" = { desktop = "dev"; };
+        "discord" = { desktop = "chat"; };
+        "Firefox" = { desktop = "dev"; };
+        "jetbrains-datagrip" = { desktop = "util"; };
+        "PolyMC" = { desktop = "games"; };
+        "rampart" = { state = "floating"; };
+        "Seahorse" = { desktop = "mail"; };
+        "Slack" = { desktop = "chat"; };
+        "Spotify" = { desktop = "media"; };
+        "Steam" = { desktop = "games"; };
+        "Thunderbird" = { desktop = "mail"; };
+        "Zeal" = { state = "floating"; };
+      };
       settings = {
         border_width = 2;
         borderless_monocle = true;
@@ -46,7 +62,15 @@ in {
         split_ratio = 0.5;
         window_gap = 12;
       };
-      startupPrograms = [ "dropbox start" ];
+      startupPrograms = [
+        "dropbox start"
+        "seahorse"
+        "alacritty"
+        "firefox"
+        "discord"
+        "slack"
+        "thunderbird"
+      ];
     };
   };
 

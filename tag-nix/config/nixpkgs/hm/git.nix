@@ -67,9 +67,11 @@ in {
           git-absorb
           gitflow
           git-filter-repo
+          git-lfs
           git-revise
           git-trim
           gh
+          pre-commit
         ]);
 
       programs.git = {

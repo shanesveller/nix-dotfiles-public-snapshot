@@ -42,7 +42,7 @@
     kube.enable = false;
     kube.home = false;
     node.enable = false;
-    rust.enable = false;
+    rust.enable = true;
     rust.sccache = false;
 
     data = {
