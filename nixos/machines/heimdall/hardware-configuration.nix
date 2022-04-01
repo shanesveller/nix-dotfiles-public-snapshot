@@ -39,6 +39,12 @@
     options = [ "nofail" ];
   };
 
+  fileSystems."/srv/cargo" = {
+    device = "none";
+    fsType = "tmpfs";
+    options = [ "size=28G" "mode=777" ];
+  };
+
   # zfs create -o mountpoint=legacy rpool/local/docker-registry-caches
   fileSystems."/srv/docker-registry-caches" = {
     device = "rpool/local/docker-registry-caches";

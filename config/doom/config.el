@@ -43,7 +43,7 @@
 
 ;; [[file:config.org::*LSP][LSP:1]]
 (when (featurep! :tools lsp)
-  (after! lsp
+  (after! lsp-mode
     (setq
      lsp-lens-enable nil))
   (after! lsp-ui

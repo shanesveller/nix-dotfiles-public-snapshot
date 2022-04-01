@@ -34,13 +34,13 @@
 
       repos = {
         asdf = {
-          branch = "v0.8.1";
+          branch = "v0.9.0";
           repo = "https://github.com/asdf-vm/asdf.git";
           target = "${config.home.homeDirectory}/.asdf";
         };
 
         doom = {
-          branch = "develop";
+          branch = "master";
           repo = "https://github.com/hlissner/doom-emacs.git";
           target = "${config.xdg.configHome}/emacs";
         };

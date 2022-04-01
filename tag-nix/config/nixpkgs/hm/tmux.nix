@@ -27,7 +27,10 @@ let
       "tf" = "~/src/infra/terraform";
       "tabletop" = "~/src/side-projects/tabletop/backend";
     };
-    workProjects = { "fros" = "~/src/fastradius/fast-radius"; };
+    workProjects = {
+      "fros" = "~/src/fastradius/fast-radius";
+      "stl" = "~/src/fastradius/stl_tools";
+    };
     customSessions = {
       "jaeger" = commandSession "jaeger" ''
         docker run -it --rm --name jaeger \
