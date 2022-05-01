@@ -6,6 +6,10 @@ in {
   options.programs.shanesveller.work.enable = mkEnableOption "Work";
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [ aws-iam-authenticator aws-vault awscli2 ];
+    home.packages = with pkgs; [
+      aws-iam-authenticator
+      aws-vault
+      unstable.awscli2
+    ];
   };
 }

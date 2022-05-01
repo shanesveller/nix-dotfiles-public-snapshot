@@ -75,10 +75,12 @@ in {
       [
         ag # the-silver-searcher
         asciinema
-        awscli2
+        unstable.awscli2
         bashInteractive
         # coreutils # want g (GNU) prefix on binaries via Homebrew
         ctags
+        delta
+        difftastic
         diskus
         entr
         fd
