@@ -12,13 +12,6 @@
 
   users.users.shane = {
     extraGroups = [ "audio" ];
-    packages = with pkgs; [
-      mopidy
-      mopidy-spotify
-      # TODO: Check for Desktop also
-      pavucontrol
-      # TODO: Check for Desktop also
-      spotify
-    ];
+    packages = with pkgs; [ pavucontrol ];
   };
 }

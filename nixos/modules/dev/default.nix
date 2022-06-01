@@ -9,7 +9,7 @@
     ./git.nix
     ./internet.nix
     ./kube.nix
-    ./media.nix
+    # ./media.nix
     ./security.nix
     ./shell.nix
     ../emacs

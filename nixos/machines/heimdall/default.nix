@@ -17,7 +17,7 @@
     ./dev.nix
     ../../modules/fancy-xwindows
     ../../modules/gaming
-    ../../modules/git-server
+    # ../../modules/git-server
     ../../modules/wm-bspwm
     # ../../modules/wm-gnome
     # ../../modules/wm-kde

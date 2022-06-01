@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  boot.plymouth.enable = true;
+  boot.plymouth.enable = false;
 
   services.picom = {
     enable = true;

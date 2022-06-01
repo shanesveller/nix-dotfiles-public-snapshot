@@ -2,7 +2,7 @@
 
 {
   users.users.shane = {
-    packages = with pkgs; [ alacritty calibre heaptrack kitty pinentry xclip ];
+    packages = with pkgs; [ alacritty calibre heaptrack pinentry xclip ];
   };
 
 }

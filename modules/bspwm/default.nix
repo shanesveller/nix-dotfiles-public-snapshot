@@ -39,21 +39,21 @@ in {
         DisplayPort-1 =
           [ "dev" "chat" "mail" "games" "media" "util" "VII" "VIII" "IX" "X" ];
       };
+      # xprop | grep WM_CLASS
       rules = {
         "Alacritty" = { desktop = "dev"; };
         "Aseprite" = { desktop = "media"; };
         "Code" = { desktop = "dev"; };
         "discord" = { desktop = "chat"; };
-        "Firefox" = { desktop = "dev"; };
+        # Firefox
+        "Navigator" = { desktop = "dev"; };
         "jetbrains-datagrip" = { desktop = "util"; };
         "PolyMC" = { desktop = "games"; };
         "rampart" = { state = "floating"; };
         "Seahorse" = { desktop = "mail"; };
         "Slack" = { desktop = "chat"; };
-        "Spotify" = { desktop = "media"; };
         "Steam" = { desktop = "games"; };
         "Thunderbird" = { desktop = "mail"; };
-        "Zeal" = { state = "floating"; };
       };
       settings = {
         border_width = 2;

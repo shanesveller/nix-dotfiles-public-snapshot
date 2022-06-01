@@ -1,6 +1,7 @@
 { buildRustPackage, fetchCrate, lib }:
 let
   pname = "jless";
+  # https://github.com/PaulJuliusMartinez/jless/releases/latest
   version = "0.7.1";
 in buildRustPackage {
   inherit pname version;

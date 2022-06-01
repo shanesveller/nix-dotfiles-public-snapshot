@@ -22,8 +22,8 @@
       useDHCP = false;
     };
   };
-  networking.nameservers = [ "10.86.0.4" "1.1.1.1" "1.0.0.1" ];
-  networking.networkmanager.enable = true;
+  networking.nameservers = [ "10.86.0.1" "1.1.1.1" "1.0.0.1" ];
+  networking.networkmanager.enable = false;
   networking.useDHCP = false;
   networking.useNetworkd = false;
   networking.wireless.enable = false;

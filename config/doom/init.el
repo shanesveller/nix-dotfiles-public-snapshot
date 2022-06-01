@@ -78,7 +78,7 @@
        make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
        (:if IS-LINUX pdf) ; pdf enhancements
-       (:if (not (string= system-name "skadi")) prodigy)           ; FIXME managing external services & code builders
+       (:if (not (string= system-name "work-machine")) prodigy)           ; FIXME managing external services & code builders
        ;;rgb               ; creating color strings
        ;;taskrunner        ; taskrunner for all your projects
        terraform         ; infrastructure as code
@@ -117,7 +117,7 @@
        (javascript +lsp) ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia             ; a better, faster MATLAB
        ;;kotlin            ; a better, slicker Java(Script)
-       (:if (not (string= system-name "skadi")) latex) ; writing papers in Emacs has never been so fun
+       (:if (not (string= system-name "work-machine")) latex) ; writing papers in Emacs has never been so fun
        ;;lean
        ;;factor
        ;;ledger            ; an accounting system in Emacs

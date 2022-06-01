@@ -1,18 +1,21 @@
 { lib, fetchFromGitHub, rustPlatform, stdenv, installShellFiles, pkg-config
 , DiskArbitration, Foundation, libiconv, openssl, zellij, testVersion }:
 
-rustPlatform.buildRustPackage rec {
+let
   pname = "zellij";
-  version = "0.25.0";
+  # https://github.com/zellij-org/zellij/releases/latest
+  version = "0.29.1";
+in rustPlatform.buildRustPackage {
+  inherit pname version;
 
   src = fetchFromGitHub {
     owner = "zellij-org";
     repo = "zellij";
     rev = "v${version}";
-    sha256 = "sha256-MTSM8fYAcNcmjg6bkOEN+U5+WilaEy52EJOfyoIy3Zg=";
+    sha256 = "sha256-KuelmMQdCazwTlolH5xvvNXZfzHQDUV6rrlk037GFb8=";
   };
 
-  cargoSha256 = "sha256-2QEDrxTz7I9hF+WfVKkGLXHWZjQ5by/zuO16NGOJSKk=";
+  cargoSha256 = "sha256-He8rMY8n15ZSF/GcbuYTx2JfZgqQnsZLfqP+lUYxnzw=";
 
   nativeBuildInputs = [ installShellFiles pkg-config ];
 

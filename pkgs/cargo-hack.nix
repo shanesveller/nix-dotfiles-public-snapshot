@@ -1,6 +1,7 @@
 { buildRustPackage, fetchCrate, lib }:
 let
   pname = "cargo-hack";
+  # https://github.com/taiki-e/cargo-hack/releases/latest
   version = "0.5.12";
 in buildRustPackage {
   inherit pname version;

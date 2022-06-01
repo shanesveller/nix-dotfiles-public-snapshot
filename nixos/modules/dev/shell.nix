@@ -1,3 +1,3 @@
 { pkgs, ... }: {
-  users.users.shane = { packages = with pkgs; [ direnv ripgrep rcm ]; };
+  users.users.shane = { packages = with pkgs; [ direnv ripgrep ]; };
 }
