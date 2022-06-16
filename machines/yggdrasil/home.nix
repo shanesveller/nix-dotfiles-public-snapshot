@@ -1,32 +1,34 @@
 { config, flake, pkgs, ... }: {
   programs.shanesveller = {
-    home.enable = true;
+    home.enable = false;
 
-    bash.enable = true;
+    bash.enable = false;
     fish.enable = true;
     fish.omf = false;
-    fish.starship = true;
-    zsh.enable = true;
+    fish.starship = false;
+    zsh.enable = false;
 
     emacs = {
       doom = true;
       enable = true;
-      package = flake.packages.x86_64-linux.emacs;
+      package = pkgs.emacs-nox;
       latex = false;
     };
     vim.enable = true;
 
     git.enable = true;
-    local.enable = true;
-    local.home = true;
+    git.pre-commit = false;
+    local.enable = false;
+    local.home = false;
     ssh.enable = true;
     tmux.enable = true;
     tmux.emacs = false;
-    utilities.enable = true;
-    utilities.direnv = true;
+    utilities.enable = false;
+    utilities.direnv = false;
+    utilities.unfree = false;
 
-    kube.enable = true;
-    kube.home = true;
+    kube.enable = false;
+    kube.home = false;
 
     data = {
       enable = false;

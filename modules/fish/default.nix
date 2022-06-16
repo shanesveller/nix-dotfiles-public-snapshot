@@ -26,14 +26,8 @@ in {
     else
       [ pkgs.fish-foreign-env ];
 
-    # TODO: Overlay
-    # nixpkgs.overlays =
-    #   mkIf cfg.starship [ (self: super: { starship = unstable.starship; }) ];
-
     programs.direnv.enable = true;
-    programs.direnv.enableFishIntegration = true;
     programs.direnv.nix-direnv.enable = true;
-    programs.direnv.nix-direnv.enableFlakes = true;
 
     programs.fish = {
       enable = true;
@@ -172,14 +166,7 @@ in {
           end
 
           __source_file_if_exists $HOME/.asdf/asdf.fish
-          __source_file_if_exists /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.fish.inc
-
           __add_path_if_exists $HOME/.cargo/bin
-          __add_path_if_exists /usr/local/opt/gnu-getopt/bin
-          __add_path_if_exists /usr/local/opt/postgresql@10/bin
-
-          functions -e __add_path_if_exists
-          functions -e __source_file_if_exists
         ''
 
         (mkIf (config.programs.shanesveller.emacs.enable
@@ -195,8 +182,23 @@ in {
         '')
 
         (mkIf pkgs.stdenv.isDarwin ''
+          function __add_path_if_exists -a target_path
+            test -d $target_path; and set -g --append fish_user_paths $target_path
+          end
+
+          __source_file_if_exists /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.fish.inc
+
+          __add_path_if_exists /usr/local/opt/gnu-getopt/bin
+          __add_path_if_exists /usr/local/opt/postgresql@10/bin
+          __add_path_if_exists /opt/homebrew/bin
+
           /usr/bin/ssh-add -l | grep "The agent has no identities." >/dev/null; and /usr/bin/ssh-add -A >/dev/null
         '')
+
+        ''
+          functions -e __add_path_if_exists
+          functions -e __source_file_if_exists
+        ''
       ];
 
       plugins = mkIf cfg.omf [{

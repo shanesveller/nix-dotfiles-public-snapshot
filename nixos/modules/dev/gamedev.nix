@@ -2,6 +2,6 @@
 
 {
   users.users.shane = {
-    packages = with pkgs; [ unstable.aseprite-unfree blender unstable.tiled ];
+    packages = with pkgs; [ aseprite-unfree blender tiled ];
   };
 }

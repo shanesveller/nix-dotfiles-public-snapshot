@@ -20,6 +20,7 @@
     vim.enable = true;
 
     git.enable = true;
+    git.pre-commit = true;
     local.enable = true;
     local.home = true;
     media.enable = true;
@@ -28,6 +29,8 @@
     tmux.emacs = true;
     utilities.enable = true;
     utilities.direnv = true;
+    utilities.nextgen = true;
+    utilities.unfree = true;
 
     elixir.enable = false;
     # https://github.com/elixir-lang/elixir/releases
@@ -35,7 +38,7 @@
     # https://github.com/erlang/otp/releases/
     elixir.erlangVersion = "22.3.4.4";
     go.enable = false;
-    go.package = pkgs.go_1_15;
+    go.package = pkgs.go_1_18;
     kube.enable = true;
     kube.home = true;
     rust.enable = true;

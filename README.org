@@ -1,0 +1,38 @@
+#+STARTUP: content
+
+* TODO Shane Sveller's Personal Dotfiles
+More instructions/descriptive content possibly forthcoming.
+
+*This repository is an incomplete capture of my real Git history* and has been
+cleaned, and almost certainly does not build or evaluate correctly at any given
+time due to the redacted content.
+
+** Folder structure
+Still in flux and there are several things I'd like to consolidate and reorganize.
+
+- ~config~ :: special-snowflake content for ~$XDG_CONFIG_HOME~ that must remain mutable
+  - Currently just my Doom Emacs config, which is literate org-mode but not particularly clever
+- ~darwin~ :: MacOS specific content for ~nix-darwin~
+- ~flake-parts~ :: submodules/content for [[https://github.com/hercules-ci/flake-parts][flake-parts]]
+- ~machines~ :: entrypoints for NixOS/~nix-darwin~ and [[https://github.com/nix-community/home-manager/][home-manager]] content
+- ~modules~ :: predominantly ~home-manager~ modules and a small amount of NixOS content for ~bspwm~ (~nixos~ folder is intended to collapse into this)
+- ~nix~ :: sort of orphaned, but was meant to hold Nix content that was not specific to either flakes or ~flake-parts~
+- ~nixos~ :: NixOS modules and "profiles" (my nickname for i.e. desktop vs headless presets)
+- ~pkgs~ :: local derivations that are typically exposed as flake outputs
+
+** Machines
+- Heimdall :: Ryzen 5950X/Radeon 6900XT desktop running NixOS 22.05
+- Kvasir :: 2018 Intel Macbook Pro running MacOS 11
+- Lodurr :: 2021 M1 Macbook Pro running MacOS 12, issued by my employer
+- Yggdrasil :: Intel Skull Canyon NUC (~NUC6i7KYK~) running NixOS 22.05
+
+** Other notes
+*** Git Setup
+**** Git Trim
+https://github.com/foriequal0/git-trim/
+[[https://github.com/foriequal0/git-trim/blob/5686c480318c301f22b500070110b2bd6f80662e/src/config.rs#L29][Git Config Syntax Ref]]
+#+begin_src shell
+git config --local trim.update false
+git config --local trim.bases master,develop
+git config --local trim.delete "local,merged-local,remote:origin,diverged:."
+#+end_src

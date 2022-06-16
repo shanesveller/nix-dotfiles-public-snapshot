@@ -5,57 +5,7 @@ with lib;
 let
   cfg = config.programs.shanesveller.tmux;
   tmuxpFiles = let
-    personalProjects = {
-      "advent" = "~/src/advent/rust/advent-2019";
-      "beer" = "~/src/side-projects/beer-share/backend";
-      "blog" = "~/src/shanesveller-dot-com";
-      "cellar" = "~/src/side-projects/beer-share/backend";
-      "doom" = "~/.emacs.d";
-      "dotfiles" = "~/.dotfiles";
-      "emacs" = "~/src/emacs-distribution";
-      "exercism" = "~/src/exercism";
-      "geek-api" = "~/src/side-projects/fantasy-geek/api-rs";
-      "geek-client" = "~/src/side-projects/fantasy-geek/client";
-      "geek-data" = "~/src/side-projects/fantasy-geek/data";
-      "gitlab" = "~/src/infra/gitlab";
-      "helm" = "~/src/infra/helm-charts";
-      "officer" = "~/src/side-projects/kubernetes-operators/officer";
-      "org" = "~/Dropbox/org";
-      "playground" = "~/src/rust/playground";
-      "rampart" = "~/src/side-projects/games/rampart";
-      "realm" = "~/src/side-projects/mud/realmatic_theory";
-      "tf" = "~/src/infra/terraform";
-      "tabletop" = "~/src/side-projects/tabletop/backend";
-    };
-    workProjects = {
-      "fros" = "~/src/fastradius/fast-radius";
-      "stl" = "~/src/fastradius/stl_tools";
-    };
-    customSessions = {
-      "jaeger" = commandSession "jaeger" ''
-        docker run -it --rm --name jaeger \
-                    -e COLLECTOR_ZIPKIN_HTTP_PORT=9411 \
-                    -p 5775:5775/udp \
-                    -p 6831:6831/udp \
-                    -p 6832:6832/udp \
-                    -p 5778:5778 \
-                    -p 16686:16686 \
-                    -p 14268:14268 \
-                    -p 9411:9411 \
-                    jaegertracing/all-in-one:1.13
-      '' {
-        shell_command_before =
-          [ "docker ps -q >/dev/null" "docker rm -f jaeger" ];
-      };
-
-      "music" = commandSession "music" "pianobar" { };
-
-      "plantuml" = commandSession "plantuml"
-        "docker run -it --name plantuml --rm -p 8080:8080 plantuml/plantuml-server:jetty" {
-          shell_command_before =
-            [ "docker ps -q >/dev/null" "docker rm -f plantuml" ];
-        };
-    };
+    customSessions = { };
     # TODO: cross-module config lookup
     editorCommand = if cfg.emacs then "et ." else "$EDITOR .";
     tmuxpPane = shell_command: focus: rest:
@@ -77,8 +27,8 @@ let
     yamlText = generators.toYAML { };
     yamlFileForSession = name: session:
       pkgs.writeTextDir ".tmuxp/${name}.yaml" (yamlText session);
-    personalSessions = attrsets.mapAttrs editorSession personalProjects;
-    workSessions = attrsets.mapAttrs editorSession workProjects;
+    personalSessions = attrsets.mapAttrs editorSession cfg.personalProjects;
+    workSessions = attrsets.mapAttrs editorSession cfg.workProjects;
     sessions = builtins.foldl' lib.trivial.mergeAttrs { } [
       personalSessions
       workSessions
@@ -90,9 +40,29 @@ let
     paths = sessionFiles;
   };
 in {
-  options.programs.shanesveller.tmux.enable = mkEnableOption "Tmux";
-  options.programs.shanesveller.tmux.emacs =
-    mkEnableOption "Use Emacs for EDITOR";
+  options.programs.shanesveller.tmux = {
+    enable = mkEnableOption "Tmux";
+    emacs = mkEnableOption "Use Emacs for EDITOR";
+    personalProjects = mkOption {
+      type = types.attrsOf types.str;
+      default = {
+        "blog" = "~/src/shanesveller-dot-com";
+        "dotfiles" = "~/.dotfiles";
+        "helm" = "~/src/infra/helm-charts";
+        "org" = "~/Dropbox/org";
+        "rampart" = "~/src/side-projects/games/rampart";
+      };
+      example = { "dotfiles" = "$HOME/.dotfiles"; };
+      description = "Attrset of names and paths for tmuxp projects";
+    };
+
+    workProjects = mkOption {
+      type = types.attrsOf types.str;
+      default = { };
+      example = { "monorepo" = "$HOME/src/monorepo"; };
+      description = "Attrset of names and paths for tmuxp projects";
+    };
+  };
 
   config = mkIf cfg.enable {
     home.file.".tmuxp".source = "${tmuxpFiles}/.tmuxp";

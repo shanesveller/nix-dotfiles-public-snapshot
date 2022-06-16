@@ -11,6 +11,8 @@
   };
   networking.dhcpcd.enable = false;
   networking.domain = "asgard.local";
+  # Recommended with Tailscale on NixOS 22.05
+  networking.firewall.checkReversePath = "loose";
   networking.hostId = "5fe1b1f0";
   networking.hostName = "heimdall";
   networking.interfaces = {

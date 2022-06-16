@@ -37,12 +37,16 @@ let
   workConfig = {
     core = { excludesfile = "~/.config/git/ignore.work"; };
     remote = { pushDefault = "origin"; };
-    user = { email = "shane@sveller.dev"; };
+    user = {
+      email = "shane.sveller@dscout.com";
+      signingkey = "4D15643E6B88D4ED";
+    };
   };
 
 in {
   options.programs.shanesveller.git = {
     enable = mkEnableOption "Git";
+    pre-commit = mkEnableOption "global pre-commit";
     work = mkEnableOption "Work-specific git config";
 
     # https://github.com/rycee/home-manager/blob/33c6230dac5589dfd2e043463061a13c82c20794/modules/programs/git.nix#L129-L134
@@ -61,7 +65,8 @@ in {
       home.packages = with pkgs;
         [
           clog-cli
-          unstable.gfold
+          gfold
+          git
           # (python37.withPackages (ps: with ps; [ virtualenv ]))
         ] ++ (with pkgs.gitAndTools; [
           git-absorb
@@ -71,8 +76,9 @@ in {
           git-revise
           git-trim
           gh
-          pre-commit
-        ]);
+        ])
+        # UNFREE: dotnet-sdk
+        ++ lib.optional (cfg.pre-commit) pkgs.pre-commit;
 
       programs.git = {
         enable = true;
@@ -161,7 +167,7 @@ in {
     (mkIf (cfg.work) {
       programs.git.includes = [{
         path = "~/.config/git/config.work";
-        condition = "gitdir:~/src/fastradius/";
+        condition = "gitdir:~/src/dscout/";
       }];
       xdg.configFile = {
         "git/config.work".text = generators.toINI { } workConfig;

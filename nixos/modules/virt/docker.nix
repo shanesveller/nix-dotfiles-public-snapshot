@@ -12,6 +12,7 @@ let
       services.dockerRegistry.extraConfig = {
         inherit REGISTRY_PROXY_REMOTEURL;
       };
+      system.stateVersion = "21.05";
     };
     bindMounts = {
       "/var/lib/docker-registry" = {

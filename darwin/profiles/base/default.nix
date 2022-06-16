@@ -8,7 +8,7 @@
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
-  environment.systemPackages = [ ];
+  environment.systemPackages = [ pkgs.nushell ];
 
   # Use a custom configuration.nix location.
   # $ darwin-rebuild switch -I darwin-config=$HOME/.config/nixpkgs/darwin/configuration.nix
@@ -16,8 +16,8 @@
 
   # Auto upgrade nix package and the daemon service.
   services.nix-daemon.enable = true;
-  # defaults to nixUnstable via flake-utils-plus
-  nix.package = pkgs.unstable.nixUnstable;
+
+  nix.package = pkgs.nixUnstable;
   nix.trustedUsers = [ "@admin" "@staff" ];
   nix.extraOptions = ''
     auto-optimise-store = false
@@ -63,7 +63,7 @@
   programs.bash.enable = true;
   programs.zsh.enable = true;
   programs.fish.enable = true;
-  environment.shells = with pkgs; [ bashInteractive fish zsh ];
+  environment.shells = with pkgs; [ bashInteractive fish nushell zsh ];
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog

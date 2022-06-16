@@ -1,6 +1,11 @@
 { config, flake, pkgs, ... }: {
+  home.homeDirectory = "/Users/shanesveller";
+  home.username = "shanesveller";
+
+  home.packages = [ pkgs.ffmpeg_4 ];
+
   programs.shanesveller = {
-    home.enable = true;
+    work.enable = true;
 
     bash.enable = true;
     fish.enable = true;
@@ -11,50 +16,39 @@
     emacs = {
       doom = true;
       enable = true;
-      package = flake.packages.x86_64-linux.emacs;
-      latex = true;
+      package = flake.packages.${pkgs.system}.emacs;
+      latex = false;
     };
     vim.enable = true;
 
-    # TODO: Fix maildirBasePath
-
     git.enable = true;
-    git.pre-commit = true;
-    local.enable = true;
-    local.home = true;
+    git.pre-commit = false;
+    git.work = true;
+    local.enable = false;
+    local.home = false;
+    media.enable = false;
     ssh.enable = true;
     tmux.enable = true;
     tmux.emacs = true;
+    tmux.personalProjects = { "dotfiles" = "~/.dotfiles"; };
+    tmux.workProjects = { "dscout" = "~/src/dscout/dscout"; };
     utilities.enable = true;
+    utilities.direnv = true;
     utilities.nextgen = true;
     utilities.unfree = true;
 
     elixir.enable = false;
-    elixir.nixBuild = true;
     # https://github.com/elixir-lang/elixir/releases
-    elixir.elixirVersion = "1.12.0";
+    elixir.elixirVersion = "1.10.4";
     # https://github.com/erlang/otp/releases/
-    elixir.erlangVersion = "24.0";
-    go.enable = false;
-    go.package = pkgs.go_1_18;
-    kube.enable = true;
-    kube.home = true;
-    media.enable = true;
-    node.enable = false;
-    rust.enable = true;
-    rust.sccache = false;
-
-    # NixOS/Linux only
-    wm.bspwm.enable = true;
-    wm.polybar.enable = true;
-    wm.sxhkd.enable = true;
+    elixir.erlangVersion = "22.3.4.4";
 
     data = {
       enable = true;
 
       repos = {
         asdf = {
-          branch = "v0.9.0";
+          branch = "v0.10.1";
           repo = "https://github.com/asdf-vm/asdf.git";
           target = "${config.home.homeDirectory}/.asdf";
         };

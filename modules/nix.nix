@@ -5,6 +5,7 @@
     home.packages = with pkgs;
       [
         cachix
+        git
         hydra-check
         nix-diff
         nix-du

@@ -1,17 +1,17 @@
-{ buildRustPackage, fetchCrate, lib }:
+{ buildRustPackage, fetchCrate }:
 let
   pname = "cargo-hack";
   # https://github.com/taiki-e/cargo-hack/releases/latest
-  version = "0.5.12";
+  version = "0.5.14";
 in buildRustPackage {
   inherit pname version;
 
   src = fetchCrate {
     inherit pname version;
-    sha256 = "sha256-uY5aYLu3IyjghNZbUMQVoaacf+3w23ckTFaTOaw/3Qo=";
+    sha256 = "sha256-ZfNJivxjZV4PkGBoPqoEEJnOndQLi6v8jOGED0kR0cY=";
   };
 
   cargoDepsName = pname;
-  cargoHash = "sha256-jfSow1LEeE5fTcV9YrZQTknGCNYDCSRw6UGX0Cd8Vmc=";
+  cargoHash = "sha256-cOq0QAAoVzwh9z4TUvSLE7Z5CCzKZvGd2GZfBwVZ7/A=";
   doCheck = false;
 }

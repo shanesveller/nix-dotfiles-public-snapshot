@@ -11,7 +11,7 @@ in {
       type = types.package;
       default = pkgs.go;
       defaultText = "pkgs.go";
-      example = pkgs.go_1_12;
+      example = pkgs.go_1_18;
       description = "The Go package to use.";
     };
   };
@@ -30,12 +30,12 @@ in {
         # godoctor # does not exist in nix
         # gopls # does not exist in nix
         gogetdoc
-        goimports
         golangci-lint
         gomodifytags
         gopkgs
         # gorename # does not exist in nix
         gotests
+        gotools
         # guru # does not exist in nix
         impl
       ] ++ pkgs.lib.optionals (cfg.packager) [ dep2nix go2nix vgo2nix ];

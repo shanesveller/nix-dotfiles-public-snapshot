@@ -9,5 +9,5 @@
 
   powerManagement.cpuFreqGovernor = "performance";
 
-  users.users.shane = { packages = [ pkgs.unstable.steam-run ]; };
+  users.users.shane = { packages = [ pkgs.steam-run ]; };
 }

@@ -13,10 +13,9 @@ let
   lookupSluggedPackage = name: version: getAttr (slug name version);
 
   lspPackage = if cfg.nixBuild then
-    pkgs.unstable.elixir_ls.overrideAttrs
-    (_orig: { elixir = cfg.elixirPackage; })
+    pkgs.elixir_ls.overrideAttrs (_orig: { elixir = cfg.elixirPackage; })
   else
-    pkgs.unstable.elixir_ls;
+    pkgs.elixir_ls;
 in {
   options.programs.shanesveller.elixir = {
     enable = mkEnableOption "Elixir";

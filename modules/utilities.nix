@@ -4,13 +4,14 @@ with lib;
 let cfg = config.programs.shanesveller.utilities;
 in {
   # TODO: option for overlay, or extract overlay
-  options.programs.shanesveller.utilities.enable = mkEnableOption "Utilities";
-  options.programs.shanesveller.utilities.direnv =
-    mkEnableOption "Direnv Overlay";
-  options.programs.shanesveller.utilities.home =
-    mkEnableOption "Home-specific utilities";
-  options.programs.shanesveller.utilities.work =
-    mkEnableOption "Work-specific utilities";
+  options.programs.shanesveller.utilities = {
+    enable = mkEnableOption "Utilities";
+    direnv = mkEnableOption "Direnv Overlay";
+    home = mkEnableOption "Home-specific utilities";
+    nextgen = mkEnableOption "Next-gen utilities (mostly rust)";
+    unfree = mkEnableOption "Unfree utilities";
+    work = mkEnableOption "Work-specific utilities";
+  };
 
   config = mkIf cfg.enable {
     programs.bat.enable = true;
@@ -59,7 +60,7 @@ in {
       defaultCacheTtl = 3600;
       enableSshSupport = true;
       maxCacheTtl = 7200;
-      pinentryFlavor = "gnome3";
+      pinentryFlavor = "gtk2";
     };
 
     home.file = mkIf pkgs.stdenv.isDarwin {
@@ -73,68 +74,51 @@ in {
 
     home.packages = with pkgs;
       [
-        ag # the-silver-searcher
-        asciinema
-        unstable.awscli2
-        bashInteractive
-        # coreutils # want g (GNU) prefix on binaries via Homebrew
-        ctags
-        delta
-        difftastic
-        diskus
         entr
-        fd
-        gist
-        git
         graphviz
-        httpie
+        # httpie # 22.05 BROKEN (python3 pyopenssl)
         ipcalc
         jid
-        jless
         jo
-        mr # lags in nix
         mtr
         ncdu
         nmap
-        nss # mkcert
         openssh # ssh-copy-id included
-        # pinentry_emacs
         pstree
         pv
         pwgen
         readline
         rename
-        ripgrep # compiles from source?
+        ripgrep
         shellcheck
-        silver-searcher
-        socat
-        sops
         speedtest-cli
         sqlite
         tldr
-        tokei # fails in nix release-19.03?
         tree
-        # truncate # not present in nix
         watch
-        watchexec # not present in nix
-        wrk
+        watchexec
+      ] ++ pkgs.lib.optionals (cfg.nextgen) [
+        bandwhich
+        bat
+        bottom
+        delta
+        difftastic
+        diskus
+        du-dust
+        exa
+        fd
+        gitui
+        jless
+        just
+        miniserve
+        procs
+        tokei
+        xsv
         zellij
-        # TODO: cross-module config lookup
       ] ++ pkgs.lib.optionals (cfg.home) [
-        ansible
-        exercism
-        fdupes
-        hugo # lags in nix
-        pandoc # lags in nix
-        pre-commit
-        restic # lags in nix
-        telnet
-      ] ++ pkgs.lib.optionals (cfg.work) [ bitwarden-cli ]
+        inetutils # telnet
+      ] ++ pkgs.lib.optionals (cfg.work) [ ]
       ++ pkgs.lib.optional (stdenv.isDarwin) pinentry_mac
       ++ pkgs.lib.optionals (stdenv.isLinux) (with pkgs; [ _1password t-rec ]);
-
-    # TODO: Overlay
-    # nixpkgs.overlays =
-    #   mkIf (cfg.direnv) [ (self: super: { direnv = legacy.direnv; }) ];
   };
 }
